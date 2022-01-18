@@ -41,7 +41,7 @@ public class BigqueryDatabase extends AbstractJdbcDatabase {
 
   @Override
   protected String getDefaultDatabaseProductName() {
-    return PRODUCT_NAME;
+    return getShortName(); //PRODUCT_NAME;
   }
 
   @Override

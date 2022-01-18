@@ -11,6 +11,7 @@ import liquibase.sqlgenerator.SqlGeneratorChain;
 import liquibase.sqlgenerator.SqlGeneratorFactory;
 import liquibase.sqlgenerator.core.AbstractSqlGenerator;
 import liquibase.sqlgenerator.core.CreateDatabaseChangeLogTableGenerator;
+import liquibase.statement.ColumnConstraint;
 import liquibase.statement.NotNullConstraint;
 import liquibase.statement.core.CreateDatabaseChangeLogTableStatement;
 import liquibase.statement.core.CreateTableStatement;
@@ -19,6 +20,13 @@ public class BigqueryCreateDatabaseChangeLogTableGenerator extends CreateDatabas
 
     protected String getCharTypeName(Database database) {
         return "string";
+    }
+
+    @Override
+    public int getPriority() {
+        //Of all the SqlGenerators that "support" a given SqlStatement/Database, SqlGeneratorFactory will return the one with the highest priority.
+        return PRIORITY_DATABASE;
+
     }
 
 }

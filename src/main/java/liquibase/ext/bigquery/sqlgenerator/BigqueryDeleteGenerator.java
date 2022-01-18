@@ -29,4 +29,11 @@ public class BigqueryDeleteGenerator extends DeleteGenerator {
         return new Sql[] { new UnparsedSql(sql.toString(), getAffectedTable(statement)) };
     }
 
+    @Override
+    public int getPriority() {
+        //Of all the SqlGenerators that "support" a given SqlStatement/Database, SqlGeneratorFactory will return the one with the highest priority.
+        return PRIORITY_DATABASE;
+
+    }
+
 }

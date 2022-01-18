@@ -29,6 +29,7 @@ import liquibase.util.StringUtil;
 public class BigqueryColumnSnapshotGenerator extends ColumnSnapshotGenerator {
 
 
+
     @Override
     protected Column readColumn(CachedRow columnMetadataResultSet, Relation table, Database database)
         throws SQLException, DatabaseException {

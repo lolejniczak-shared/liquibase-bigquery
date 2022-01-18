@@ -14,10 +14,27 @@ import liquibase.statement.NotNullConstraint;
 import liquibase.statement.core.CreateDatabaseChangeLogLockTableStatement;
 import liquibase.statement.core.CreateTableStatement;
 
+//https://github.com/liquibase/liquibase-teradata/tree/main/src/main/java/liquibase/ext/teradata/sqlgenerator
+
 public class BigqueryCreateDatabaseChangeLogLockTableGenerator extends CreateDatabaseChangeLogLockTableGenerator {
+
+    public BigqueryCreateDatabaseChangeLogLockTableGenerator(){
+        super();
+    }
+
+
+    @Override
+    public int getPriority() {
+        //Of all the SqlGenerators that "support" a given SqlStatement/Database,
+        // SqlGeneratorFactory will return the one with the highest priority.
+        return PRIORITY_DATABASE;
+
+    }
 
     @Override
     public Sql[] generateSql(CreateDatabaseChangeLogLockTableStatement statement, Database database, SqlGeneratorChain sqlGeneratorChain) {
+
+        //System.out.println("---------gen------------- BigqueryCreateDatabaseChangeLogLockTableGenerator");
         String charTypeName = getCharTypeName(database);
         String dateTimeTypeString = getDateTimeTypeString(database);
         CreateTableStatement createTableStatement = new CreateTableStatement(database.getLiquibaseCatalogName(), database.getLiquibaseSchemaName(), database.getDatabaseChangeLogLockTableName())
@@ -30,6 +47,8 @@ public class BigqueryCreateDatabaseChangeLogLockTableGenerator extends CreateDat
         // use LEGACY quoting since we're dealing with system objects
         ObjectQuotingStrategy currentStrategy = database.getObjectQuotingStrategy();
         database.setObjectQuotingStrategy(ObjectQuotingStrategy.LEGACY);
+
+        //System.out.println("constraints: "+createTableStatement.getPrimaryKeyConstraint().getColumns());
         try {
             return SqlGeneratorFactory.getInstance().generateSql(createTableStatement, database);
         } finally {
